@@ -6,9 +6,8 @@ Criar um script em que toda a infraestrutura de usuários, grupos de usuários, 
 
 <br>
 
-## Funcionalidades
+## Especificações
 
-- Excluir diretórios, arquivos, grupos e usuários criados anteriormente;
 - Todo provisionamento deve ser feito em um arquivo do tipo Bash Script;
 - O dono de todos os diretórios criados será o usuário root;
 - Todos os usuários terão permissão total dentro do diretório publico;

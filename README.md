@@ -6,6 +6,12 @@ Criar um script em que toda a infraestrutura de usuários, grupos de usuários, 
 
 <br>
 
+## Escopo
+
+<img src="escopo.png" alt="Escopo do projeto">
+
+<br>
+
 ## Especificações
 
 - Todo provisionamento deve ser feito em um arquivo do tipo Bash Script;
@@ -13,3 +19,4 @@ Criar um script em que toda a infraestrutura de usuários, grupos de usuários, 
 - Todos os usuários terão permissão total dentro do diretório publico;
 - Os usuários de cada grupo terão permissão total dentro de seu respectivo diretório;
 - Os usuários não poderão ter permissão de leitura, escrita e execução em diretórios de departamentos que eles não pertencem;
+

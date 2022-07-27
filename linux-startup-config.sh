@@ -1,39 +1,45 @@
-#!/bin/bash
+#!/usr/env bash
+#-----------------------------------------------------
+#  Arquivo:       linux-starup-config.bash
+#  Descricao:     Projeto de IAC para configuração de 
+#                 usuários 
+#  Autor:         Mateus Mota
+#-----------------------------------------------------
 
-echo "Adicionando arquivos..."
+echo "Verificando se usuário atual tem poderes o suficiente"
+if [[ $(whoami) == "root" ]]; then
+    
+    #Verifica por cada diretório se ele existe e cria caso não
+    diretorios=("/public" "/adm" "/ven" "/sec ")
+    echo "Criando diretórios..."
+    for diretorio in "${diretorios[@]}"; do [ -d $diretorio ] || mkdir $diretorio; done
 
-mkdir /public
-mkdir /adm
-mkdir /ven
-mkdir /sec
 
-echo "Criando grupos de usuários..."
+    #Verifica por cada grupo se ele existe e cria caso não
+    grupos=("GRP_ADM" "GRP_VEN" "GRP_SEC")   
+    echo "Realizando criação de grupos de usuários..."
+    for grupo in "${grupos[@]}"; do [[ $(groups | grep lxd) ]] || groupadd $grupo; done
 
-groupadd GRP_ADM
-groupadd GRP_VEN
-groupadd GRP_SEC
+    #FALTA IMPLEMENTAR VERIFICAÇÃO
+    echo "Especificando permissões de diretórios..."
+    chown root:GRP_ADM /admin
+    chown root:GRP_VEN /ven
+    chown root:GRP_SEC /sec
+    
+    chmod 770 /admin 
+    chmod 770 /ven 
+    chmod 770 /sec 
+    chmod 777 /public
+    
 
-echo "Criando usuários..."
+    #Verifica por cada usuario se ele existe e cria caso não
+    usuarios_adm=("carlos" "maria" "joao")
+    echo "Realizando criação de usuários..."
+    for usuario in "${usuarios_adm[@]}"; do [[ $(cat /etc/passwd | cut -d: -f1 | grep aaa) ]] || useradd $usuarios -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_ADM; done
 
-useradd carlos -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_ADM
-useradd maria -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_ADM
-useradd joao -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_ADM
+    usuarios_ven=("debora" "sebastiao" "roberto")
+    for usuario in "${usuarios_ven[@]}"; do [[ $(cat /etc/passwd | cut -d: -f1 | grep aaa) ]] || useradd $usuarios -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_VEN; done
 
-useradd debora -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_VEN
-useradd sebastiao -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_VEN
-useradd roberto -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_VEN
-
-useradd josefina -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_SEC
-useradd amanda -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_SEC
-useradd rogerio -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_SEC
-
-echo "Especificando permissões de diretórios..."
-
-chown root:GRP_ADM /admin
-chown root:GRP_VEN /ven
-chown root:GRP_SEC /sec
- 
-chmod 770 /admin 
-chmod 770 /ven 
-chmod 770 /sec 
-chmod 777 /public
+    usuarios_sec=("josefina" "amanda" "rogerio")
+    for usuario in "${usuarios_sec[@]}"; do [[ $(cat /etc/passwd | cut -d: -f1 | grep aaa) ]] || useradd $usuario -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_SEC; done
+fi

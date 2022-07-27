@@ -7,7 +7,9 @@
 #-----------------------------------------------------
 
 echo "Verificando se usuário atual tem poderes o suficiente"
-if [[ $(whoami) == "root" ]]; then
+[[ $(whoami) != "root" ]] || echo "Usuário atual não é o root !!!" && echo "Encerrando Script..."
+
+if [[ $(whoami) = "root" ]]; then
     
     #Verifica por cada diretório se ele existe e cria caso não
     diretorios=("/public" "/adm" "/ven" "/sec ")
@@ -31,8 +33,6 @@ if [[ $(whoami) == "root" ]]; then
     chmod 770 /sec 
     chmod 777 /public
     
-
-<<<<<<< HEAD
     #Verifica por cada usuario se ele existe e cria caso não
     usuarios_adm=("carlos" "maria" "joao")
     echo "Realizando criação de usuários..."
@@ -44,30 +44,3 @@ if [[ $(whoami) == "root" ]]; then
     usuarios_sec=("josefina" "amanda" "rogerio")
     for usuario in "${usuarios_sec[@]}"; do [[ $(cat /etc/passwd | cut -d: -f1 | grep aaa) ]] || useradd $usuario -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_SEC; done
 fi
-=======
-echo "Criando usuários do grupo de administração..."
-useradd carlos -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_ADM
-useradd maria -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_ADM
-useradd joao -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_ADM
-
-echo "Criando usuários do grupo de vendas..."
-useradd debora -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_VEN
-useradd sebastiao -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_VEN
-useradd roberto -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_VEN
-
-echo "Criando usuários do grupo de segurança..."
-useradd josefina -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_SEC
-useradd amanda -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_SEC
-useradd rogerio -m -s /bin/bash -p ${openssl passwd -crypt Senha123} -G GRP_SEC
-
-echo "Especificando permissões de diretórios..."
-
-chown root:GRP_ADM /admin
-chown root:GRP_VEN /ven
-chown root:GRP_SEC /sec
- 
-chmod 770 /admin 
-chmod 770 /ven 
-chmod 770 /sec 
-chmod 777 /public
->>>>>>> 42e132db7325e74c682973a7d95d9d49ad7340e7

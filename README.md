@@ -1,5 +1,5 @@
 # linux-experience-bootcamp-project1
-1° projeto do bootcamp Linux Experience.
+1° projeto do bootcamp Linux Experience, focado em automatizar a configuração de um sistema linux por código sendo essa prática conhecida como Iac(Infrastructure as Code)
 
 ## Objetivo
 Criar um script em que toda a infraestrutura de usuários, grupos de usuários, diretórios e permissões serão criadas automaticamente. Será realizado o upload do arquivo de script no GitHub para futuras reutilizações do script. Sendo assim, toda nova máquina virtual que for iniciada já estará pronta para uso quando o script for executado.
